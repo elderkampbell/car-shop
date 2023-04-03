@@ -39,14 +39,6 @@ class CarController {
   }
 
   public async create() {
-    // const car: ICar = {
-    //   payByPerson: this.req.body.payByPerson,
-    //   payToPerson: this.req.body.payToPerson,
-    //   amount: this.req.body.amount,
-    //   key: this.req.body.key,
-    //   status: PaymentStatus.concluded,
-    // };
-
     try {
       const newCar = await this.service.create(this.req.body);
       return this.res.status(201).json(newCar);
@@ -64,16 +56,11 @@ class CarController {
       } 
       const updatedCar = await this.service.updateById(id, car);
 
-      // if (!updatedCar) {
-      //   return this.res.status(404).json({ message: 'Car not found' });
-      // }
-
       return this.res.status(200).json(updatedCar);
     } catch (error) {
       if (error instanceof Error) {
         return this.res.status(404).json({ message: error.message });
       }
-      // this.next(error);
     }
   }
 }
