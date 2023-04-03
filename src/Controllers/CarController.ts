@@ -54,19 +54,28 @@ class CarController {
       this.next(error);
     }
   }
-//   public async reversalRequest() {
-//     const payment: ICar = {
-//       ...this.req.body,
-//       status: PaymentStatus.reversed,
-//     };
-//     const { id } = this.req.params;
-//     try {
-//       await this.service.undoTransfer(id, payment);
-//       return this.res.status(204).json({});
-//     } catch (error) {
-//       this.next(error);
-//     }
-//   }
+
+  public async updateById() {
+    const { id } = this.req.params;
+    const car = { ...this.req.body };
+    try {
+      if (!Mongoose.isValidObjectId(id)) {
+        return this.res.status(422).json({ message: 'Invalid mongo id' });
+      } 
+      const updatedCar = await this.service.updateById(id, car);
+
+      // if (!updatedCar) {
+      //   return this.res.status(404).json({ message: 'Car not found' });
+      // }
+
+      return this.res.status(200).json(updatedCar);
+    } catch (error) {
+      if (error instanceof Error) {
+        return this.res.status(404).json({ message: error.message });
+      }
+      // this.next(error);
+    }
+  }
 }
 
 export default CarController;
