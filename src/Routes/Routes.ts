@@ -39,10 +39,10 @@ routes.get(
   (req, res, next) => new MotorcycleController(req, res, next).getById(),
 );
 
-// routes.put(
-//   '/motorcycles/:id',
-//   (req, res, next) => new MotorcycleController(req, res, next).updateById(),
-// );
+routes.put(
+  '/motorcycles/:id',
+  (req, res, next) => new MotorcycleController(req, res, next).updateById(),
+);
 
 // routes.patch(
 //   '/transfer/:id',
