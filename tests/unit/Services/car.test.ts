@@ -67,6 +67,29 @@ describe('Testa a criação de um carro', function () {
     expect(carArray).to.be.deep.equal(carOutput);
   });
 
+  it('Deveria lançar uma exceção quando a id é inválido', async function () {
+    const carInput: ICar = {
+      model: 'Fusca',
+      year: 1930,
+      color: 'Azul',
+      status: true,
+      buyValue: 1.000,
+      doorsQty: 2,
+      seatsQty: 5,
+    };
+    const carId = '000000';
+
+    sinon.stub(Model, 'update').resolves();
+    sinon.stub(Model, 'findOne').resolves(false);
+    
+    try {
+      const service = new CarService();
+      await service.updateById(carId, carInput);
+    } catch (error) {
+      expect((error as Error).message).to.be.equal('Car not found');
+    }
+  });
+
   afterEach(function () {
     sinon.restore();
   });

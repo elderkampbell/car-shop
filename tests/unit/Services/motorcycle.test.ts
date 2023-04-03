@@ -67,6 +67,29 @@ describe('Testa a criação de um moto', function () {
     expect(motorcycleArray).to.be.deep.equal(motorcycleOutput);
   });
 
+  it('Deveria lançar uma exceção quando a id é inválido', async function () {
+    const motorcycleInput: IMotorcycle = {
+      model: 'Fusca',
+      year: 1930,
+      color: 'Azul',
+      status: true,
+      buyValue: 1.000,
+      category: 'Street',
+      engineCapacity: 2,
+    };
+    const motorcycleId = '000000';
+
+    sinon.stub(Model, 'update').resolves();
+    sinon.stub(Model, 'findOne').resolves(false);
+    
+    try {
+      const service = new MotorcycleService();
+      await service.updateById(motorcycleId, motorcycleInput);
+    } catch (error) {
+      expect((error as Error).message).to.be.equal('Motorcycle not found');
+    }
+  });
+
   afterEach(function () {
     sinon.restore();
   });
